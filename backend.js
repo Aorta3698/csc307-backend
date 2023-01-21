@@ -71,9 +71,11 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
   try {
-    const userToAdd = req.body;
+    var userToAdd = req.body;
+    userToAdd.id = genId();
     addUser(userToAdd);
-    res.status(201).end();
+    // var res = { users_list: userToAdd };
+    res.status(201).send(userToAdd);
   } catch {
     resstatus(400).send("failure to add a user");
   }
@@ -102,7 +104,6 @@ function genId() {
   return res;
 }
 function addUser(user) {
-  user.id = genId();
   users["users_list"].push(user);
 }
 function findUserById(id) {
