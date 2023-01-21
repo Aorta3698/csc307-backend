@@ -70,9 +70,13 @@ app.get("/users/:id", (req, res) => {
 });
 
 app.post("/users", (req, res) => {
-  const userToAdd = req.body;
-  addUser(userToAdd);
-  res.status(200).end();
+  try {
+    const userToAdd = req.body;
+    addUser(userToAdd);
+    res.status(201).end();
+  } catch {
+    resstatus(400).send("failure to add a user");
+  }
 });
 
 app.delete("/users/:id", (req, res) => {
@@ -87,7 +91,18 @@ app.delete("/users/:id", (req, res) => {
   }
   // users = users["users_list"].filter((user) => user["id"] !== id);
 });
+function genId() {
+  var all =
+    "wlypbzfoucrstgmneiaqjvdkxh/,.WLYPBZFOUCRSTGMNEIAQJVDKXH0123456789`$|&@=_+-%#*!^:([{~}]) ";
+  var len = Math.random() * 100;
+  var res = "";
+  for (var i = 0; i < len; ++i) {
+    res += all.charAt(Math.floor(Math.random() * all.length));
+  }
+  return res;
+}
 function addUser(user) {
+  user.id = genId();
   users["users_list"].push(user);
 }
 function findUserById(id) {
