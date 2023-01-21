@@ -74,7 +74,6 @@ app.post("/users", (req, res) => {
     var userToAdd = req.body;
     userToAdd.id = genId();
     addUser(userToAdd);
-    // var res = { users_list: userToAdd };
     res.status(201).send(userToAdd);
   } catch {
     resstatus(400).send("failure to add a user");
@@ -82,20 +81,18 @@ app.post("/users", (req, res) => {
 });
 
 app.delete("/users/:id", (req, res) => {
-  console.log("what");
   const id = req.params["id"];
-  const index = users["users_list"].findIndex((user) => user.id == id);
+  const index = users["users_list"].findIndex((user) => user.id === id);
   if (index == -1) {
-    res.status(400).send("record not found");
+    res.status(404).send("record not found");
   } else {
     users["users_list"].splice(index, 1);
-    res.status(200).end();
+    res.status(204).end();
   }
-  // users = users["users_list"].filter((user) => user["id"] !== id);
 });
 function genId() {
   var all =
-    "wlypbzfoucrstgmneiaqjvdkxh/,.WLYPBZFOUCRSTGMNEIAQJVDKXH0123456789`$|&@=_+-%#*!^:([{~}]) ";
+    "wlypbzfoucrstgmneiaqjvdkxhWLYPBZFOUCRSTGMNEIAQJVDKXH0123456789-_.~";
   var len = Math.random() * 100;
   var res = "";
   for (var i = 0; i < len; ++i) {
